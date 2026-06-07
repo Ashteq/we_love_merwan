@@ -1,0 +1,26 @@
+{
+  "name": "we_love_merwan",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "homepage": "https://Ashteq.github.io/we_love_merwan/",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build --base=/we_love_merwan/",
+    "preview": "vite preview",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist"
+  },
+  "dependencies": {
+    "firebase": "^10.12.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "gh-pages": "^6.1.1",
+    "vite": "^5.3.4"
+  }
+}
