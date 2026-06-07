@@ -10,7 +10,7 @@ import { saveReview, fetchReviews } from "./firebase.config.js";
 // ── ⚠️  REPLACE WITH YOUR SPOTIFY APP CREDENTIALS ─────────────────
 // Dashboard: https://developer.spotify.com/dashboard
 // Set Redirect URI to:  https://<your-github-username>.github.io/<repo-name>/
-const SPOTIFY_CLIENT_ID = "YOUR_SPOTIFY_CLIENT_ID_HERE";
+const SPOTIFY_CLIENT_ID = "cfe609bbaf064f77bcd4be5d662c722f";
 const REDIRECT_URI      = window.location.origin + window.location.pathname;
 const SCOPES = [
   "streaming",

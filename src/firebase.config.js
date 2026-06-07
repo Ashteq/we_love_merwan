@@ -1,21 +1,20 @@
 // ╔══════════════════════════════════════════════════════════════════╗
-// ║  we_love_merwan — Firebase Client Configuration                 ║
-// ║  Pure client-side Firestore access (no backend required)        ║
-// ║  Replace the values below with your own Firebase project config  ║
+// ║  we_love_merwan — Firebase Client Configuration                  ║
+// ║  Pure client-side Firestore access (no backend required)         ║
 // ╚══════════════════════════════════════════════════════════════════╝
 
 import { initializeApp } from "firebase/app";
 import { getFirestore, collection, addDoc, getDocs, serverTimestamp, query, orderBy } from "firebase/firestore";
 
-// ⚠️  REPLACE THESE WITH YOUR REAL FIREBASE PROJECT CREDENTIALS
-// Go to: Firebase Console → Project Settings → Your Apps → SDK setup
+// Your actual Firebase project credentials
 const firebaseConfig = {
-  apiKey:            "AIzaSy-REPLACE-WITH-YOUR-KEY",
-  authDomain:        "your-project-id.firebaseapp.com",
-  projectId:         "your-project-id",
-  storageBucket:     "your-project-id.appspot.com",
-  messagingSenderId: "000000000000",
-  appId:             "1:000000000000:web:0000000000000000000000",
+  apiKey: "AIzaSyD6ai8ws2MCDBH_F1i-C7Ipigrw1srBNhU",
+  authDomain: "welovemerwan.firebaseapp.com",
+  projectId: "welovemerwan",
+  storageBucket: "welovemerwan.firebasestorage.app",
+  messagingSenderId: "971420965187",
+  appId: "1:971420965187:web:e3816cbcdc4f87c52337f6",
+  measurementId: "G-SFFZTYWJQ7"
 };
 
 // Initialize Firebase app (safe to call multiple times in dev with HMR)
