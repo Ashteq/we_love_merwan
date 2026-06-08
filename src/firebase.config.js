@@ -27,7 +27,7 @@ export const db = getFirestore(app);
 
 /**
  * Save a new review document to the "reviews" collection.
- * @param {{ trackId: string, trackName: string, artist: string, rating: number, comment: string, userId: string, displayName: string }} review
+ * @param {{ trackId: string, trackName: string, artist: string, rating: number, comment: string, userId: string, userName: string }} review
  * @returns {Promise<string>} The new document ID
  */
 export async function saveReview(review) {
