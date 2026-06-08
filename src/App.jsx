@@ -567,6 +567,15 @@ function ReviewPanel({ currentTrack, userProfile }) {
       showToast("WRITE SOMETHING FIRST ♥");
       return;
     }
+    
+    // Get the user's display name
+    const userName = userProfile?.display_name && userProfile.display_name.trim() 
+      ? userProfile.display_name 
+      : "Anonymous Listener";
+    
+    console.log("👤 USER PROFILE:", userProfile);
+    console.log("📝 USERNAME TO SAVE:", userName);
+    
     setSubmit(true);
     try {
       await saveReview({
@@ -576,7 +585,7 @@ function ReviewPanel({ currentTrack, userProfile }) {
         rating,
         comment:     comment.trim(),
         userId:      userProfile?.id   ?? "anon",
-        userName:    userProfile?.display_name ?? "Anonymous Listener",
+        userName:    userName,
       });
       setComment("");
       setRating(5);
@@ -798,9 +807,11 @@ export default function App() {
       });
       if (!res.ok) throw new Error("Failed to fetch profile");
       const data = await res.json();
+      console.log("✅ LOADED USER PROFILE:", data);
       setUserProfile(data);
     } catch {
       // Non-fatal; app still works without profile data
+      console.warn("⚠️ Could not load user profile");
     }
   }
 
