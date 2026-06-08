@@ -715,7 +715,7 @@ function ReviewPanel({ currentTrack, userProfile }) {
                 <div key={r.id} className="review-card">
                   <div className="review-card__header">
                     <span className="review-card__user">
-                      {r.userName ?? "Anonymous Listener"}
+                      {r.userName || r.displayName || "Anonymous Listener"}
                     </span>
                     <span className="review-card__track">
                       {r.trackName ?? ""}
@@ -751,7 +751,7 @@ export default function App() {
   const [currentTrack, setCurrentTrack] = useState(null);
   const [authLoading, setAuthLoading]   = useState(true);
 
-  // ── On mount: check URL for auth code or stored token ──��──────
+  // ── On mount: check URL for auth code or stored token ─────────
   useEffect(() => {
     async function handleAuth() {
       const params = new URLSearchParams(window.location.search);
