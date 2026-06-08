@@ -1,8 +1,8 @@
-// ╔══════════════════════════════════════════════════════════════════╗
+// ╔═══════════════════════════════════════════════════════════════════╗
 // ║  we_love_merwan — App.jsx                                       ║
 // ║  Pure client-side: Spotify PKCE + Firebase Firestore            ║
 // ║  Retro Pop-Art aesthetic                                         ║
-// ╚══════════════════════════════════════════════════════════════════╝
+// ╚═══════════════════════════════════════════════════════════════════╝
 
 import { useState, useEffect, useRef, useCallback } from "react";
 import { saveReview, fetchReviews } from "./firebase.config.js";
@@ -576,7 +576,7 @@ function ReviewPanel({ currentTrack, userProfile }) {
         rating,
         comment:     comment.trim(),
         userId:      userProfile?.id   ?? "anon",
-        displayName: userProfile?.display_name ?? "Anonymous Listener",
+        userName:    userProfile?.display_name ?? "Anonymous Listener",
       });
       setComment("");
       setRating(5);
@@ -715,7 +715,7 @@ function ReviewPanel({ currentTrack, userProfile }) {
                 <div key={r.id} className="review-card">
                   <div className="review-card__header">
                     <span className="review-card__user">
-                      {r.displayName ?? "Anonymous"}
+                      {r.userName ?? "Anonymous Listener"}
                     </span>
                     <span className="review-card__track">
                       {r.trackName ?? ""}
@@ -751,7 +751,7 @@ export default function App() {
   const [currentTrack, setCurrentTrack] = useState(null);
   const [authLoading, setAuthLoading]   = useState(true);
 
-  // ── On mount: check URL for auth code or stored token ─────────
+  // ── On mount: check URL for auth code or stored token ──��──────
   useEffect(() => {
     async function handleAuth() {
       const params = new URLSearchParams(window.location.search);
