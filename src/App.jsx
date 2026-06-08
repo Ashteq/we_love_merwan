@@ -546,11 +546,20 @@ function ReviewPanel({ currentTrack, userProfile }) {
   const [submitting, setSubmit]   = useState(false);
   const [loading, setLoading]     = useState(true);
   const [toast, setToast]         = useState(null);
+  const [profileLoading, setProfileLoading] = useState(true);
 
   const showToast = useCallback((msg) => {
     setToast(msg);
     setTimeout(() => setToast(null), 3000);
   }, []);
+
+  // Track when profile is actually loaded with display_name
+  useEffect(() => {
+    if (userProfile && userProfile.display_name) {
+      console.log("✅ USER PROFILE FULLY LOADED:", userProfile.display_name);
+      setProfileLoading(false);
+    }
+  }, [userProfile]);
 
   useEffect(() => {
     let cancelled = false;
@@ -563,17 +572,20 @@ function ReviewPanel({ currentTrack, userProfile }) {
   }, [showToast]);
 
   async function handleSubmit() {
+    // BLOCK submission if profile not loaded
+    if (!userProfile || !userProfile.display_name) {
+      showToast("⏳ LOADING YOUR PROFILE... PLEASE WAIT ♥");
+      console.warn("❌ Tried to submit but userProfile not loaded:", userProfile);
+      return;
+    }
+
     if (!comment.trim()) {
       showToast("WRITE SOMETHING FIRST ♥");
       return;
     }
     
-    // Get the user's display name
-    const userName = userProfile?.display_name && userProfile.display_name.trim() 
-      ? userProfile.display_name 
-      : "Anonymous Listener";
-    
-    console.log("👤 USER PROFILE:", userProfile);
+    const userName = userProfile.display_name.trim();
+    console.log("👤 PROFILE CONFIRMED:", userName);
     console.log("📝 USERNAME TO SAVE:", userName);
     
     setSubmit(true);
@@ -584,7 +596,7 @@ function ReviewPanel({ currentTrack, userProfile }) {
         artist:      currentTrack?.artist ?? "Unknown Artist",
         rating,
         comment:     comment.trim(),
-        userId:      userProfile?.id   ?? "anon",
+        userId:      userProfile.id   ?? "anon",
         userName:    userName,
       });
       setComment("");
@@ -653,6 +665,7 @@ function ReviewPanel({ currentTrack, userProfile }) {
                   value={comment}
                   onChange={(e) => setComment(e.target.value)}
                   maxLength={500}
+                  disabled={profileLoading}
                 />
                 <span
                   style={{
@@ -682,12 +695,27 @@ function ReviewPanel({ currentTrack, userProfile }) {
                 </div>
               )}
 
+              {profileLoading && (
+                <div
+                  style={{
+                    fontFamily: "var(--font-pixel)",
+                    fontSize: "0.4rem",
+                    color: "var(--pink-500)",
+                    textAlign: "center",
+                    lineHeight: 2,
+                    marginBottom: 8,
+                  }}
+                >
+                  ⏳ LOADING YOUR SPOTIFY PROFILE...
+                </div>
+              )}
+
               <button
                 className="btn-pixel btn-submit"
                 onClick={handleSubmit}
-                disabled={submitting}
+                disabled={submitting || profileLoading}
               >
-                {submitting ? "SAVING..." : "♥ SUBMIT REVIEW ♥"}
+                {submitting ? "SAVING..." : profileLoading ? "LOADING..." : "♥ SUBMIT REVIEW ♥"}
               </button>
             </div>
           </div>
@@ -808,10 +836,10 @@ export default function App() {
       if (!res.ok) throw new Error("Failed to fetch profile");
       const data = await res.json();
       console.log("✅ LOADED USER PROFILE:", data);
+      console.log("   Display Name:", data.display_name);
       setUserProfile(data);
-    } catch {
-      // Non-fatal; app still works without profile data
-      console.warn("⚠️ Could not load user profile");
+    } catch (e) {
+      console.error("❌ FAILED TO LOAD PROFILE:", e);
     }
   }
 
