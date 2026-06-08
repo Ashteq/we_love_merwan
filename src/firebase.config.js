@@ -31,10 +31,12 @@ export const db = getFirestore(app);
  * @returns {Promise<string>} The new document ID
  */
 export async function saveReview(review) {
+  console.log("🔥 SAVING REVIEW TO FIREBASE:", review);
   const docRef = await addDoc(collection(db, "reviews"), {
     ...review,
     createdAt: serverTimestamp(),
   });
+  console.log("✅ REVIEW SAVED WITH ID:", docRef.id);
   return docRef.id;
 }
 
@@ -45,7 +47,18 @@ export async function saveReview(review) {
 export async function fetchReviews() {
   const q = query(collection(db, "reviews"), orderBy("createdAt", "desc"));
   const snapshot = await getDocs(q);
-  return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  const reviews = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  console.log("📥 FETCHED REVIEWS FROM FIREBASE:", reviews);
+  reviews.forEach((r, i) => {
+    console.log(`  Review ${i}:`, {
+      id: r.id,
+      userName: r.userName,
+      displayName: r.displayName,
+      trackName: r.trackName,
+      comment: r.comment
+    });
+  });
+  return reviews;
 }
 
 /**
